@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
+/* import React from 'react';
+import Navigation from './Navigation';
 import './App.css';
 
-function App() {
+// export interface Links {
+//   links: Link[];
+//  }
+ 
+//  export interface Link {
+//   label: string;
+//   to: string;
+//  }
+
+// const links = [
+//   { label: 'Website', to: 'https://www.robinwieruch.de/' },
+//   { label: 'Twitter', to: 'https://twitter.com/rwieruch' }
+// ];
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+        <Navigation links={links} />
+      </div>
   );
 }
 
+export default App; */
+
+import { useState } from 'react';
+
+import classes from './App.module.scss';
+import Header from './components/Layout/Header/Header';
+import Meals from './components/Meals/Meals';
+import Cart from './components/Cart/Cart';
+import CartProvider from './store/CartProvider';
+
+const App = () => {
+  const [cartIsShown, setCartIsShown] = useState<boolean>(false);
+
+  const toggleCartModal = (flag: boolean) => {
+    setCartIsShown(flag);
+  }
+
+  return (
+    <CartProvider>
+        { cartIsShown && <Cart onCloseCart={toggleCartModal} />}
+        <Header onOpenCart={toggleCartModal} />
+        <main className={classes['main-bg']}>
+          <Meals />
+        </main>
+    </CartProvider>
+  );
+};
+
 export default App;
+
+
