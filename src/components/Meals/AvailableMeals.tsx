@@ -5,10 +5,10 @@ import { MealsList } from '../../models/meal';
 import classes from './AvailableMeals.module.scss';
 
 // Used React.FC here to show an example
-const AvailableMeals: React.FC<MealsList> = ({mealsList}: MealsList) => {
+const AvailableMeals: React.FC<MealsList> = (props) => {
 // OR const AvailableMeals = ({mealsList}: MealsList) => {
 
-    const mealList = mealsList.map(meal => 
+    const mealList = props.mealsList.map(meal => 
       <MealItem key={meal.id} {...meal} />
       // OR
       // <MealItem 
