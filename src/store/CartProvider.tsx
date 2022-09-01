@@ -27,22 +27,23 @@ const defaultCartState: CartStateObj = {
 const cartReducer = (state: CartStateObj, action: ActionObj) => {
     switch(action.type) {
         case OperationKind.ADD: {
-            const existingCartItemIndex = state.items.findIndex(item => item.id === action.item!.id);
+            var actionItem = action.item!;
+            const existingCartItemIndex = state.items.findIndex(item => item.id === actionItem.id);
             const existingCartItem = state.items[existingCartItemIndex];
 
             let updatedItems: Meal[];  
             if(existingCartItem) {
                 const updatedItem: Meal = {
                     ...existingCartItem,
-                    amount: existingCartItem.amount + action.item!.amount
+                    amount: existingCartItem.amount + actionItem.amount
                 }
                 updatedItems = [...state.items];
                 updatedItems[existingCartItemIndex] = updatedItem;
             } else {
-                updatedItems = state.items.concat(action.item!);
+                updatedItems = state.items.concat(actionItem);
             }
 
-            const updatedTotalAmount = state.totalAmount + (action.item!.amount * action.item!.price);
+            const updatedTotalAmount = state.totalAmount + (actionItem.amount * actionItem.price);
             return {
                 items: updatedItems,
                 totalAmount: updatedTotalAmount

@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = (props) => {
         <Fragment>
             <header className={classes.header}>
                 <h1>React Meals</h1>
-                {!props.isAuthenticated && <HeaderCartButton onOpen={props.onToggleCart} />}
+                {props.isAuthenticated && <HeaderCartButton onOpen={props.onToggleCart} />}
                 <Navigation isLoggedIn={props.isAuthenticated} onLogout={props.onLogout} />
             </header>
             <div className={classes['main-image']}>
