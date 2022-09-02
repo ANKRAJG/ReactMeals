@@ -1,29 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AuthContext, { AuthCtxObj } from '../../../store/auth-context';
 
 import classes from './Navigation.module.scss';
 
-type NavProps = {
-  isLoggedIn: boolean;
-  onLogout: () => void;
-}
 
-const Navigation = (props: NavProps) => {
+const Navigation = () => {
+  const authCtx = useContext<AuthCtxObj>(AuthContext);
+
   return (
     <nav className={classes.nav}>
       <ul>
-        {props.isLoggedIn && (
+        {authCtx.isLoggedIn && (
           <li>
             <a href="/">Users</a>
           </li>
         )}
-        {props.isLoggedIn && (
+        {authCtx.isLoggedIn && (
           <li>
             <a href="/">Admin</a>
           </li>
         )}
-        {props.isLoggedIn && (
+        {authCtx.isLoggedIn && (
           <li>
-            <button onClick={props.onLogout}>Logout</button>
+            <button onClick={authCtx.logout}>Logout</button>
           </li>
         )}
       </ul>

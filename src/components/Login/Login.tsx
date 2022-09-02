@@ -1,8 +1,9 @@
-import React, { ChangeEvent, FormEvent, useReducer, useState, useEffect } from 'react';
+import React, { ChangeEvent, FormEvent, useReducer, useState, useEffect, useContext } from 'react';
 
 import LoginCard from './LoginCard';
 import classes from './Login.module.scss';
 import Button, { ButtonTypes } from '../UI/Button/Button';
+import AuthContext, { AuthCtxObj } from '../../store/auth-context';
 
 
 enum InputValidatorTypes {
@@ -52,7 +53,8 @@ const passwordReducer = (state: InputStateProps, action: ReducerAction) => {
   }
 };
 
-const Login: React.FC<{onLogin: (email: string, password: string) => void}> = (props) => {
+const Login = () => {
+  const authCtx = useContext<AuthCtxObj>(AuthContext);
   const [formIsValid, setFormIsValid] = useState<boolean | null>(false);
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, initialInputState);
@@ -106,7 +108,7 @@ const Login: React.FC<{onLogin: (email: string, password: string) => void}> = (p
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.login(emailState.value, passwordState.value);
   };
 
   return (

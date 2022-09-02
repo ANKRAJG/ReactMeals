@@ -1,46 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useState, Fragment, useContext } from 'react';
 
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import Header from './components/Layout/Header/Header';
+import AuthContext, { AuthCtxObj } from './store/auth-context';
 
-import CartProvider from './store/CartProvider';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cartIsShown, setCartIsShown] = useState<boolean>(false);
-
-  useEffect(() => {
-    const storedLoggedInInfo = localStorage.getItem('isLoggedIn');
-    if(storedLoggedInInfo === '1') {
-      setIsLoggedIn(true);
-    }
-  }, []);
+  const authCtx = useContext<AuthCtxObj>(AuthContext);
 
   const toggleCartModal = (flag: boolean) => {
       setCartIsShown(flag);
   }
 
-  const loginHandler = (email: string, password: string) => {
-    // We should of course check email and password
-    // But it's just a dummy/demo anyways
-    localStorage.setItem('isLoggedIn', '1');
-    setIsLoggedIn(true);
-  };
-
-  const logoutHandler = () => {
-    localStorage.setItem('isLoggedIn', '0');
-    setIsLoggedIn(false);
-  };
-
   return (
-    <CartProvider>
-      <Header onToggleCart={toggleCartModal} isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+    <Fragment>
+      <Header onToggleCart={toggleCartModal} />
       <main>
-        {!isLoggedIn && <Login onLogin={loginHandler} />}
-        {isLoggedIn && <Home cartIsShown={cartIsShown} onLogout={logoutHandler} toggleCartModal={toggleCartModal} />}
+        {!authCtx.isLoggedIn && <Login />}
+        {authCtx.isLoggedIn && <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} />}
       </main>
-    </CartProvider>
+    </Fragment>
   );
 };
 

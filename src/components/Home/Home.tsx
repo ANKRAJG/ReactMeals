@@ -5,7 +5,6 @@ import classes from './Home.module.scss';
 import Cart from '../Cart/Cart';
 
 interface HomeProps {
-  onLogout: () => void; 
   cartIsShown: boolean; 
   toggleCartModal: (flag: boolean) => void;
 }
