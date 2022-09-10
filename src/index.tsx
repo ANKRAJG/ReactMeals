@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import CartProvider from './store/CartProvider';
@@ -9,9 +10,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <CartProvider>
-    <AuthProvider>
-        <App />
-    </AuthProvider>
-  </CartProvider>
+  <BrowserRouter>
+    <CartProvider>
+      <AuthProvider>
+          <App />
+      </AuthProvider>
+    </CartProvider>
+  </BrowserRouter>
 );

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 export interface AuthCtxObj {
     isLoggedIn: boolean | null;
@@ -14,6 +15,7 @@ const AuthContext = React.createContext<AuthCtxObj>({
 
 export const AuthProvider: React.FC<{children: React.ReactNode}> = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const history = useHistory<string>();
 
     useEffect(() => {
         const storedLoggedInInfo = localStorage.getItem('isLoggedIn');
@@ -32,6 +34,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = (props) => {
     const logoutHandler = () => {
         localStorage.setItem('isLoggedIn', '0');
         setIsLoggedIn(false);
+        history.push('/login');
     };
 
     const authCtxValue: AuthCtxObj = {
