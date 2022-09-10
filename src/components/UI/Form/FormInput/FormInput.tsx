@@ -7,6 +7,7 @@ interface FormInputAttr {
     value: string;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     onBlur: () => void;
+    min?: string;
 }
 
 interface FormInputProps {
@@ -22,8 +23,9 @@ const FormInput: React.FC<FormInputProps> = (props) => {
             props.isValid === false ? classes.invalid : ''
           }`}
         >
-          <label htmlFor={props.input.id}>{props.label}</label>
-          <input {...props.input} />
+            <label htmlFor={props.input.id}>{props.label}</label>
+            <input {...props.input} />
+            {/* {!props.isValid && <p className={classes['error-text']}>{props.label} must not be empty!</p>} */}
         </div>
     )
 };
