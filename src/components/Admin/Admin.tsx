@@ -49,7 +49,15 @@ const Admin = () => {
             return;
         }
 
-        console.log(enteredName, enteredDescription, enteredPrice);
+        fetch('https://react-meals-9cfa2-default-rtdb.firebaseio.com/meals.json', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: enteredName,
+                description: enteredDescription,
+                price: +enteredPrice
+            })
+        });
+
         nameReset();
         descriptionReset();
         priceReset();

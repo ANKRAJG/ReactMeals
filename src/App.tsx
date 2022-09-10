@@ -16,14 +16,14 @@ const App = () => {
       setCartIsShown(flag);
   };
 
-  const loggedInPages = <div>
+  const loggedInPages = (<div>
     <Route path="/home">
       <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} />
     </Route>
     <Route path="/admin">
       <Admin />
     </Route>
-  </div>;
+  </div>);
 
   return (
     <Fragment>
