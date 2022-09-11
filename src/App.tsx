@@ -1,5 +1,5 @@
 import { useState, Fragment, useContext } from 'react';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
@@ -17,6 +17,9 @@ const App = () => {
   };
 
   const loggedInPages = (<div>
+    <Route path="/" exact>
+      <Redirect to="/home" />
+    </Route>
     <Route path="/home">
       <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} />
     </Route>
@@ -30,9 +33,14 @@ const App = () => {
       <Header onToggleCart={toggleCartModal} />
       <main>
         {!authCtx.isLoggedIn && 
-          <Route path="/login">
-            <Login />
-          </Route>}
+          (<div>
+            <Route path="/" exact>
+              <Redirect to="/login" />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+          </div>)}
         {authCtx.isLoggedIn && loggedInPages}
       </main>
     </Fragment>

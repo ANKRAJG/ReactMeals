@@ -16,8 +16,11 @@
     text-decoration: none;
     color: white;
 
-    &:hover, &:active {
-      color: #f3cafb;
+    &:hover, &:active, &.active {
+      color: #95bcf0;
+      border-bottom: 2px solid #95bcf0;
+      padding-bottom: 0.25rem;
+      font-weight: 600;
     }
   }
 

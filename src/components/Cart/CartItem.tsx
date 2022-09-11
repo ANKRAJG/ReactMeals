@@ -11,7 +11,7 @@ interface CartItemProps {
 }
 
 const CartItem = (props: CartItemProps) => {
-  const price = `$${props.price.toFixed(2)}`;
+  const price = `Rs. ${props.price.toFixed(2)}`;
 
   return (
     <li className={classes['cart-item']}>

@@ -1,0 +1,28 @@
+@mixin animate($animation, $duration, $method, $name) {
+    animation: $animation $duration $method $name;
+}
+
+@mixin keyframe($name) {
+    @keyframes #{$name} {
+        @content;
+    }
+}
+
+.card-outer {
+    max-width: 60rem;
+    width: 90%;
+    margin: 2rem auto;
+    @include animate(meals-appear, 1s, ease-out, forwards);
+
+    @include keyframe(meals-appear) {
+        from {
+          opacity: 0;
+          transform: translateY(3rem);
+        }
+      
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+    }
+}

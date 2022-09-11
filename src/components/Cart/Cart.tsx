@@ -13,7 +13,7 @@ export interface CartProps {
 
 const Cart = (props: CartProps) => {
     const cartCtx = useContext<CartContextObj>(CartContext);
-    const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+    const totalAmount = `Rs. ${cartCtx.totalAmount.toFixed(2)}`;
     const hasItems = cartCtx.items.length>0;
 
     const onAddCartHandler = (item: Meal) => {

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import AuthContext, { AuthCtxObj } from '../../../store/auth-context';
 
 import classes from './Navigation.module.scss';
@@ -13,12 +13,12 @@ const Navigation = () => {
       <ul>
         {authCtx.isLoggedIn && (
           <li>
-            <Link to="/home">Home</Link>
+            <NavLink to="/home" activeClassName={classes.active}>Home</NavLink>
           </li>
         )}
         {authCtx.isLoggedIn && (
           <li>
-            <Link to="/admin">Admin</Link>
+            <NavLink to="/admin" activeClassName={classes.active}>Admin</NavLink>
           </li>
         )}
         {authCtx.isLoggedIn && (

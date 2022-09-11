@@ -9,7 +9,7 @@ import { CartContextObj } from '../../../models/cartContextObj';
 
 const MealItem = (props: Meal) => {
     const cartCtx = useContext<CartContextObj>(CartContext);
-    const price = `$${props.price.toFixed(2)}`;
+    const price = `Rs. ${props.price.toFixed(2)}`;
 
     const onAddToCardHandler = (amount: number) => {
         cartCtx.addItem({...props, amount: amount});
