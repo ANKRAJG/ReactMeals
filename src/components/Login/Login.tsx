@@ -63,8 +63,8 @@ const Login = () => {
   const [emailState, dispatchEmail] = useReducer(emailReducer, initialInputState);
   const [passwordState, dispatchPassowrd] = useReducer(passwordReducer, initialInputState);
 
-  const { isValid: emailIsValid } = emailState; // This is Object destructuring, and emailIsValid is an alias for isValid key
-  const { isValid: passwordIsValid } = passwordState; // This is Object destructuring, and passwordIsValid is an alias for isValid key
+  // const { isValid: emailIsValid } = emailState; // This is Object destructuring, and emailIsValid is an alias for isValid key
+  // const { isValid: passwordIsValid } = passwordState; // This is Object destructuring, and passwordIsValid is an alias for isValid key
 
   const history = useHistory<string>();
 
@@ -85,7 +85,7 @@ const Login = () => {
       console.log('CLEAN UP');
       clearTimeout(timer);
     };
-  }, [emailIsValid, passwordIsValid]);
+  }, [emailState.isValid, passwordState.isValid]);
 
   const emailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     dispatchEmail({type: InputValidatorTypes.INPUT_CHANGE, val: event.target.value});

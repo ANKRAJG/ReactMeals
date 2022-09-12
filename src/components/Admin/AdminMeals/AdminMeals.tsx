@@ -1,43 +1,26 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AdminMeal } from "../../../models/adminMeal";
+import AdminMealsContext, { AdminMealsContextObj } from "../../../store/admin-meals-context";
 import Card from "../../UI/Card/Card";
 import CardLayout from "../../UI/Card/CardLayout";
 import classes from "./AdminMeals.module.scss";
 
 const AdminMeals = () => {
-    const [adminMeals, setAdminMeals] = useState<AdminMeal[]>([]);
+    const adminMealsCtx = useContext<AdminMealsContextObj>(AdminMealsContext);
+
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [httpError, setHttpError] = useState<string>('');
 
     useEffect(() => {
-        const fetchMeals = async () => {
-          const response = await fetch('https://react-meals-9cfa2-default-rtdb.firebaseio.com/meals.json');
-
-          if(!response.ok) {
-            throw new Error('Something went wrong!');
-          }
-
-          const responseData = await response.json();
-          const loadedMeals = [];
-          for(const key in responseData) {
-            loadedMeals.push({
-              id: key,
-              name: responseData[key].name,
-              description: responseData[key].description,
-              price: responseData[key].price
-            });
-          }
-
-          setAdminMeals(loadedMeals);
-          setIsLoading(false);
-        };
-
-        fetchMeals().catch((error: Error) => {
-          setIsLoading(false);
-          setHttpError(error.message);
+        adminMealsCtx.getMeals(() => {
+            setIsLoading(false);
         });
-    }, []);
+
+        // fetchMeals().catch((error: Error) => {
+        //   setIsLoading(false);
+        //   setHttpError(error.message);
+        // });
+    }, [adminMealsCtx]);
 
     return (
         <Fragment>
@@ -45,7 +28,7 @@ const AdminMeals = () => {
                 <CardLayout>
                     <Card>
                         <ul>
-                            {adminMeals.map(meal => 
+                            {adminMealsCtx.items.map(meal => 
                                 <li key={meal.id} className={classes.meal}>
                                     <div><h3>{meal.name}</h3></div>
                                     <div>

@@ -1,6 +1,7 @@
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import useInput from "../../../hooks/use-input";
+import AdminMealsContext, { AdminMealsContextObj } from "../../../store/admin-meals-context";
 import Button, { ButtonTypes } from "../../UI/Button/Button";
 import CardLayout from "../../UI/Card/CardLayout";
 import FormCard from "../../UI/Form/FormCard/FormCard";
@@ -8,6 +9,7 @@ import FormInput from "../../UI/Form/FormInput/FormInput";
 import classes from "./AdminNewMeal.module.scss";
 
 const AdminNewMeal = () => {
+    const adminMealsCtx = useContext<AdminMealsContextObj>(AdminMealsContext);
     const history = useHistory<string>();
 
     const validateEmpty = (value: string) => {
@@ -53,19 +55,17 @@ const AdminNewMeal = () => {
             return;
         }
 
-        fetch('https://react-meals-9cfa2-default-rtdb.firebaseio.com/meals.json', {
-            method: 'POST',
-            body: JSON.stringify({
-                name: enteredName,
-                description: enteredDescription,
-                price: +enteredPrice
-            })
+        const mealData = {
+            name: enteredName,
+            description: enteredDescription,
+            price: +enteredPrice
+        }
+        adminMealsCtx.addNewMeal(mealData, () => {
+            nameReset();
+            descriptionReset();
+            priceReset();
+            history.push('/admin/meals');
         });
-
-        nameReset();
-        descriptionReset();
-        priceReset();
-        history.push('/admin/meals');
     }
 
 

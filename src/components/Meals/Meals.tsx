@@ -1,44 +1,32 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 
 import MealsSummary from "./MealsSummary";
 import AvailableMeals from "./AvailableMeals";
 import { Meal } from '../../models/meal';
 import classes from './Meals.module.scss';
+import AdminMealsContext, { AdminMealsContextObj } from '../../store/admin-meals-context';
 
 const Meals = () => {
+    const adminMealsCtx = useContext<AdminMealsContextObj>(AdminMealsContext);
+
     const [meals, setMeals] = useState<Meal[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [httpError, setHttpError] = useState<string>('');
 
     useEffect(() => {
-        const fetchMeals = async () => {
-          const response = await fetch('https://react-meals-9cfa2-default-rtdb.firebaseio.com/meals.json');
-
-          if(!response.ok) {
-            throw new Error('Something went wrong!');
-          }
-
-          const responseData = await response.json();
-          const loadedMeals = [];
-          for(const key in responseData) {
-            loadedMeals.push({
-              id: key,
-              name: responseData[key].name,
-              description: responseData[key].description,
-              price: responseData[key].price,
-              amount: 0
+        adminMealsCtx.getMeals(() => {
+            const adminMeals = adminMealsCtx.items;
+            const fetchedMeals: Meal[] = adminMeals.map((meal) => {
+              return {...meal, amount:0 };
             });
-          }
-
-          setMeals(loadedMeals);
-          setIsLoading(false);
-        };
-
-        fetchMeals().catch((error: Error) => {
-          setIsLoading(false);
-          setHttpError(error.message);
+            setMeals(fetchedMeals);
+            setIsLoading(false);
         });
-    }, []);
+        // fetchMeals().catch((error: Error) => {
+        //   setIsLoading(false);
+        //   setHttpError(error.message);
+        // });
+    }, [adminMealsCtx]);
 
     return (
         <Fragment>

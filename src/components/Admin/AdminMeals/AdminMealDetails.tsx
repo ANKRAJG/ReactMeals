@@ -1,21 +1,25 @@
-import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useParams } from "react-router-dom";
+import AdminMealsContext, { AdminMealsContextObj } from "../../../store/admin-meals-context";
 import Card from "../../UI/Card/Card";
 import CardLayout from "../../UI/Card/CardLayout";
 import classes from "./AdminMealDetails.module.scss";
 
 const AdminMealDetails = () => {
+    const adminMealsCtx = useContext<AdminMealsContextObj>(AdminMealsContext);
     const params = useParams<{mealId: string}>();
-    // const price = `Rs. ${props.price.toFixed(2)}`;
+    const meal = adminMealsCtx.getMealById(params.mealId);
+    const price = `Rs. ${meal.price.toFixed(2)}`;
 
     return (
         <CardLayout>
             <Card>
-            {/* <div className={classes.meal}>
-                <h3>{props.name}</h3>
-                <div className={classes.description}>{props.description}</div>
+            <div className={classes.meal}>
+                <h3>{meal.name}</h3>
+                <div className={classes.description}>{meal.description}</div>
                 <div className={classes.price}>{price}</div>
-            </div> */}
-            <h2>{params.mealId}</h2>
+            </div>
+            <Link to="/admin/meals">Go back to all Meals</Link>
         </Card>
         </CardLayout>
     )

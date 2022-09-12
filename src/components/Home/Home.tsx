@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Meals from '../Meals/Meals';
-import classes from './Home.module.scss';
 import Cart from '../Cart/Cart';
 
 interface HomeProps {
