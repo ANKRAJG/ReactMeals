@@ -48,8 +48,8 @@ const AdminMealsCtxProvider: React.FC<{children: React.ReactNode}> = (props) => 
     const adminMealsContext: AdminMealsContextObj = {
         items: meals,
         getMeals: fetchMeals,
-        addNewMeal: addNewMeal,
-        getMealById: getMealById
+        addNewMeal,
+        getMealById
     }
 
     return (
