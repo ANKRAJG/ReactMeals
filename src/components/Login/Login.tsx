@@ -6,6 +6,7 @@ import Button, { ButtonTypes } from '../UI/Button/Button';
 import AuthContext, { AuthCtxObj } from '../../store/auth-context';
 import FormCard from '../UI/Form/FormCard/FormCard';
 import FormInput from '../UI/Form/FormInput/FormInput';
+import CardLayout from '../UI/Card/CardLayout';
 
 
 enum InputValidatorTypes {
@@ -129,17 +130,19 @@ const Login = () => {
   }
 
   return (
-    <FormCard className={classes.login}>
-      <form onSubmit={submitHandler}>
-        <FormInput {...emailInputProps} />
-        <FormInput {...passwordInputProps} />
-        <div className={classes.actions}>
-          <Button type={ButtonTypes.SUBMIT} className={classes.btn} disabled={!formIsValid}>
-            Login
-          </Button>
-        </div>
-      </form>
-    </FormCard>
+    <CardLayout>
+      <FormCard className={classes.login}>
+        <form onSubmit={submitHandler}>
+          <FormInput {...emailInputProps} />
+          <FormInput {...passwordInputProps} />
+          <div className={classes.actions}>
+            <Button type={ButtonTypes.SUBMIT} className={classes.btn} disabled={!formIsValid}>
+              Login
+            </Button>
+          </div>
+        </form>
+      </FormCard>
+    </CardLayout>
   );
 };
 

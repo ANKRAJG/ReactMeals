@@ -6,6 +6,7 @@ import Home from './components/Home/Home';
 import Header from './components/Layout/Header/Header';
 import AuthContext, { AuthCtxObj } from './store/auth-context';
 import Admin from './components/Admin/Admin';
+import MainLayout from './components/Layout/MainLayout';
 
 
 const App = () => {
@@ -31,18 +32,14 @@ const App = () => {
   return (
     <Fragment>
       <Header onToggleCart={toggleCartModal} />
-      <main>
+      <MainLayout>
         {!authCtx.isLoggedIn && 
-          (<div>
-            <Route path="/" exact>
-              <Redirect to="/login" />
-            </Route>
             <Route path="/login">
               <Login />
             </Route>
-          </div>)}
+        }
         {authCtx.isLoggedIn && loggedInPages}
-      </main>
+      </MainLayout>
     </Fragment>
   );
 };

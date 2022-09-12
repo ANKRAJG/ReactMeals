@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AdminMeal } from "../../../models/adminMeal";
 import Card from "../../UI/Card/Card";
-import CardOuter from "../../UI/Card/CardOuter";
+import CardLayout from "../../UI/Card/CardLayout";
 import classes from "./AdminMeals.module.scss";
 
 const AdminMeals = () => {
@@ -42,7 +42,7 @@ const AdminMeals = () => {
     return (
         <Fragment>
             {!isLoading && !httpError && 
-                <CardOuter>
+                <CardLayout>
                     <Card>
                         <ul>
                             {adminMeals.map(meal => 
@@ -56,7 +56,7 @@ const AdminMeals = () => {
                             }
                         </ul>
                     </Card>
-                </CardOuter>
+                </CardLayout>
             }
             {isLoading && <p className={classes.mealsLoading}><b>Loading Meals...</b></p>}
             {!isLoading && httpError && <p className={classes.mealsError}><b>{httpError}</b></p>}

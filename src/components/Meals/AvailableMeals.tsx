@@ -3,6 +3,7 @@ import MealItem from './MealItem/MealItem';
 import { MealsList } from '../../models/meal';
 
 import classes from './AvailableMeals.module.scss';
+import CardLayout from '../UI/Card/CardLayout';
 
 // Used React.FC here to show an example
 const AvailableMeals: React.FC<MealsList> = (props) => {
@@ -21,11 +22,11 @@ const AvailableMeals: React.FC<MealsList> = (props) => {
     );
 
     return (
-        <section className={classes.meals}>
+        <CardLayout>
           <Card>
-            <ul>{mealList}</ul>
+            <ul className={classes.ul}>{mealList}</ul>
           </Card>
-        </section>
+        </CardLayout>
     );
 };
 

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import Card from "../../UI/Card/Card";
-import CardOuter from "../../UI/Card/CardOuter";
+import CardLayout from "../../UI/Card/CardLayout";
 import classes from "./AdminMealDetails.module.scss";
 
 const AdminMealDetails = () => {
@@ -8,7 +8,7 @@ const AdminMealDetails = () => {
     // const price = `Rs. ${props.price.toFixed(2)}`;
 
     return (
-        <CardOuter>
+        <CardLayout>
             <Card>
             {/* <div className={classes.meal}>
                 <h3>{props.name}</h3>
@@ -17,7 +17,7 @@ const AdminMealDetails = () => {
             </div> */}
             <h2>{params.mealId}</h2>
         </Card>
-        </CardOuter>
+        </CardLayout>
     )
 };
 

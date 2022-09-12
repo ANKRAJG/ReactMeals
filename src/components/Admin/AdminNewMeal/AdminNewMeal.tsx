@@ -1,12 +1,15 @@
 import { FormEvent } from "react";
+import { useHistory } from "react-router-dom";
 import useInput from "../../../hooks/use-input";
 import Button, { ButtonTypes } from "../../UI/Button/Button";
-import CardOuter from "../../UI/Card/CardOuter";
+import CardLayout from "../../UI/Card/CardLayout";
 import FormCard from "../../UI/Form/FormCard/FormCard";
 import FormInput from "../../UI/Form/FormInput/FormInput";
 import classes from "./AdminNewMeal.module.scss";
 
 const AdminNewMeal = () => {
+    const history = useHistory<string>();
+
     const validateEmpty = (value: string) => {
         return value.trim() !== '';
     }
@@ -62,6 +65,7 @@ const AdminNewMeal = () => {
         nameReset();
         descriptionReset();
         priceReset();
+        history.push('/admin/meals');
     }
 
 
@@ -84,7 +88,7 @@ const AdminNewMeal = () => {
     }
 
     return (
-        <CardOuter>
+        <CardLayout>
             <FormCard className={classes['admin-form']}>
                 <h2>Add new Meal</h2>
                 <form onSubmit={submitHandler}>
@@ -98,7 +102,7 @@ const AdminNewMeal = () => {
                     </div>
                 </form>
             </FormCard>
-        </CardOuter>
+        </CardLayout>
     )
 };
 

@@ -13,9 +13,7 @@ const Home:React.FC<HomeProps> = (props) => {
   return (
     <React.Fragment>
       { props.cartIsShown && <Cart onCloseCart={props.toggleCartModal} />}
-      <main className={classes['main-bg']}>
-        <Meals />
-      </main>
+      <Meals />
     </React.Fragment>
   );
 };

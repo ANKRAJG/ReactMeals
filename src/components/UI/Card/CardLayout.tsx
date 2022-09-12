@@ -1,8 +1,8 @@
 import React from 'react';
-import classes from './CardOuter.module.scss';
+import classes from './CardLayout.module.scss';
 
 
-const CardOuter: React.FC<{children: React.ReactNode}> = (props) => {
+const CardLayout: React.FC<{children: React.ReactNode}> = (props) => {
     return (
         <section className={classes['card-outer']}>
             {props.children}
@@ -10,4 +10,4 @@ const CardOuter: React.FC<{children: React.ReactNode}> = (props) => {
     )
 };
 
-export default CardOuter;
+export default CardLayout;
