@@ -1,5 +1,5 @@
-import { FormEvent } from "react";
-import { useHistory } from "react-router-dom";
+import { FormEvent, Fragment, useState } from "react";
+import { Prompt, useHistory } from "react-router-dom";
 import useHttp from "../../../hooks/use-http";
 import useInput from "../../../hooks/use-input";
 import Button, { ButtonTypes } from "../../UI/Button/Button";
@@ -11,6 +11,7 @@ import classes from "./AdminNewMeal.module.scss";
 const AdminNewMeal = () => {
     const { isLoading, sendRequest: addNewMeal } = useHttp();
     const history = useHistory<string>();
+    const [isEntering, setIsEntering] = useState<boolean>(false);
 
     const validateEmpty = (value: string) => {
         return value.trim() !== '';
@@ -78,6 +79,11 @@ const AdminNewMeal = () => {
         );
     }
 
+    const formFocusHandler = () => {
+        console.log('Focus Form');
+        setIsEntering(true);
+    }
+
 
     const nameInputProps = {
         label: 'Name',
@@ -98,22 +104,25 @@ const AdminNewMeal = () => {
     }
 
     return (
-        <CardLayout>
-            {!isLoading && <FormCard className={classes['admin-form']}>
-                <h2>Add new Meal</h2>
-                <form onSubmit={submitHandler}>
-                    <FormInput {...nameInputProps} />
-                    <FormInput {...descriptionInputProps} />
-                    <FormInput {...priceInputProps} />
-                    <div className={classes.actions}>
-                    <Button type={ButtonTypes.SUBMIT} className={classes.btn} disabled={!formIsValid}>
-                        Save
-                    </Button>
-                    </div>
-                </form>
-            </FormCard>}
-            {isLoading && <p className={classes.mealsLoading}><b>Loading Meals...</b></p>}
-        </CardLayout>
+        <Fragment>
+            <Prompt when={isEntering} message={(location) => 'Are you sure you want to leave?'} />
+            <CardLayout>
+                {!isLoading && <FormCard className={classes['admin-form']}>
+                    <h2>Add new Meal</h2>
+                    <form onFocus={formFocusHandler} onSubmit={submitHandler}>
+                        <FormInput {...nameInputProps} />
+                        <FormInput {...descriptionInputProps} />
+                        <FormInput {...priceInputProps} />
+                        <div className={classes.actions}>
+                        <Button type={ButtonTypes.SUBMIT} className={classes.btn} disabled={!formIsValid}>
+                            Save
+                        </Button>
+                        </div>
+                    </form>
+                </FormCard>}
+                {isLoading && <p className={classes.mealsLoading}><b>Loading Meals...</b></p>}
+            </CardLayout>
+        </Fragment>
     )
 };
 

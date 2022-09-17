@@ -18,9 +18,6 @@ const App = () => {
   };
 
   const loggedInPages = (<div>
-    <Route path="/" exact>
-      <Redirect to="/home" />
-    </Route>
     <Route path="/home">
       <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} />
     </Route>
@@ -33,12 +30,18 @@ const App = () => {
     <Fragment>
       <Header onToggleCart={toggleCartModal} />
       <MainLayout>
+        <Route path="/" exact>
+          {authCtx.isLoggedIn ? <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} /> : <Redirect to="/login" />}
+        </Route>
         {!authCtx.isLoggedIn && 
             <Route path="/login">
               <Login />
             </Route>
         }
         {authCtx.isLoggedIn && loggedInPages}
+        <Route path="*">
+          {/* <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} /> */}
+        </Route>
       </MainLayout>
     </Fragment>
   );
