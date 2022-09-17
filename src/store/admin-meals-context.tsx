@@ -9,7 +9,7 @@ export interface MealDataObj {
 
 export interface AdminMealsContextObj {
     items: AdminMeal[];
-    getMeals: (callback: Function) => void;
+    processAndSetMeals: (data: any) => AdminMeal[];
     addNewMeal: (mealData: MealDataObj, callback: Function) => void;
     getMealById: (mealId: string) => AdminMeal;
 }
@@ -18,7 +18,7 @@ const emptyMeal: AdminMeal = { id: '', name: '', description: '', price: 0 };
 
 const AdminMealsContext = React.createContext<AdminMealsContextObj>({
     items: [],
-    getMeals: () => {},
+    processAndSetMeals: (data) => [],
     addNewMeal: (mealData) => {},
     getMealById: (mealId) => { return emptyMeal }
 });

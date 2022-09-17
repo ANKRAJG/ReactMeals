@@ -18,7 +18,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = (props) => {
     const history = useHistory<string>();
 
     useEffect(() => {
-        const storedLoggedInInfo = localStorage.getItem('isLoggedIn');
+        const storedLoggedInInfo = sessionStorage.getItem('isLoggedIn');
         if(storedLoggedInInfo === '1') {
           setIsLoggedIn(true);
         }
@@ -27,12 +27,12 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = (props) => {
     const loginHandler = (email: string, password: string) => {
         // We should of course check email and password
         // But it's just a dummy/demo anyways
-        localStorage.setItem('isLoggedIn', '1');
+        sessionStorage.setItem('isLoggedIn', '1');
         setIsLoggedIn(true);
     };
     
     const logoutHandler = () => {
-        localStorage.setItem('isLoggedIn', '0');
+        sessionStorage.setItem('isLoggedIn', '0');
         setIsLoggedIn(false);
         history.push('/login');
     };
