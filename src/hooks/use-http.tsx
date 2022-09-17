@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 export interface RequestConfigObj {
     url: string;
     method?: string;
-    body?: BodyInit;
+    body?: any;
     headers?: HeadersInit;
 };
 

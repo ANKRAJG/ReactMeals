@@ -1,7 +1,7 @@
-import { FormEvent, useContext } from "react";
+import { FormEvent } from "react";
 import { useHistory } from "react-router-dom";
+import useHttp from "../../../hooks/use-http";
 import useInput from "../../../hooks/use-input";
-import AdminMealsContext, { AdminMealsContextObj } from "../../../store/admin-meals-context";
 import Button, { ButtonTypes } from "../../UI/Button/Button";
 import CardLayout from "../../UI/Card/CardLayout";
 import FormCard from "../../UI/Form/FormCard/FormCard";
@@ -9,7 +9,7 @@ import FormInput from "../../UI/Form/FormInput/FormInput";
 import classes from "./AdminNewMeal.module.scss";
 
 const AdminNewMeal = () => {
-    const adminMealsCtx = useContext<AdminMealsContextObj>(AdminMealsContext);
+    const { isLoading, sendRequest: addNewMeal } = useHttp();
     const history = useHistory<string>();
 
     const validateEmpty = (value: string) => {
@@ -48,6 +48,13 @@ const AdminNewMeal = () => {
         formIsValid = true;
     }
 
+    const postSaveData = () => {
+        nameReset();
+            descriptionReset();
+            priceReset();
+            history.push('/admin/meals');
+    }
+
     const submitHandler = (event: FormEvent) => {
         event.preventDefault();
 
@@ -60,12 +67,15 @@ const AdminNewMeal = () => {
             description: enteredDescription,
             price: +enteredPrice
         }
-        adminMealsCtx.addNewMeal(mealData, () => {
-            nameReset();
-            descriptionReset();
-            priceReset();
-            history.push('/admin/meals');
-        });
+
+        addNewMeal(
+            {
+                url: 'https://react-meals-9cfa2-default-rtdb.firebaseio.com/meals.json',
+                method: 'POST',
+                body: mealData
+            },
+            postSaveData
+        );
     }
 
 
@@ -89,7 +99,7 @@ const AdminNewMeal = () => {
 
     return (
         <CardLayout>
-            <FormCard className={classes['admin-form']}>
+            {!isLoading && <FormCard className={classes['admin-form']}>
                 <h2>Add new Meal</h2>
                 <form onSubmit={submitHandler}>
                     <FormInput {...nameInputProps} />
@@ -101,7 +111,8 @@ const AdminNewMeal = () => {
                     </Button>
                     </div>
                 </form>
-            </FormCard>
+            </FormCard>}
+            {isLoading && <p className={classes.mealsLoading}><b>Loading Meals...</b></p>}
         </CardLayout>
     )
 };
