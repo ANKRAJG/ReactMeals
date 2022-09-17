@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { AdminMeal } from "../../../models/adminMeal";
 import AdminMealsContext, { AdminMealsContextObj } from "../../../store/admin-meals-context";
 import Card from "../../UI/Card/Card";
 import CardLayout from "../../UI/Card/CardLayout";
@@ -8,8 +9,22 @@ import classes from "./AdminMealDetails.module.scss";
 const AdminMealDetails = () => {
     const adminMealsCtx = useContext<AdminMealsContextObj>(AdminMealsContext);
     const params = useParams<{mealId: string}>();
-    const meal = adminMealsCtx.getMealById(params.mealId);
-    const price = `Rs. ${meal.price.toFixed(2)}`;
+    const navigate = useNavigate();
+    var meal = adminMealsCtx.getMealById(params.mealId!);
+    const mealsString = sessionStorage.getItem('adminMeals');
+    var price = '';
+
+    if(meal) {
+        price = `Rs. ${meal.price.toFixed(2)}`;
+    } else if(mealsString) {
+        const meals: AdminMeal[] = JSON.parse(mealsString);
+        meal = meals.filter(m => m.id === params.mealId)[0];
+        price = `Rs. ${meal.price.toFixed(2)}`;
+    }
+
+    const goBack = () => {
+        navigate(-1);
+    }
 
     return (
         <CardLayout>
@@ -19,7 +34,7 @@ const AdminMealDetails = () => {
                 <div className={classes.description}>{meal.description}</div>
                 <div className={classes.price}>{price}</div>
             </div>
-            <Link to="/admin/meals">Go back to all Meals</Link>
+            <span className={classes.span} onClick={goBack}>Go back to all Meals</span>
         </Card>
         </CardLayout>
     )

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useReducer, useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import classes from './Login.module.scss';
 import Button, { ButtonTypes } from '../UI/Button/Button';
@@ -66,7 +66,7 @@ const Login = () => {
   // const { isValid: emailIsValid } = emailState; // This is Object destructuring, and emailIsValid is an alias for isValid key
   // const { isValid: passwordIsValid } = passwordState; // This is Object destructuring, and passwordIsValid is an alias for isValid key
 
-  const history = useHistory<string>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // This is kind of debounce feature
@@ -114,7 +114,7 @@ const Login = () => {
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
     authCtx.login(emailState.value, passwordState.value);
-    history.push('/home');
+    navigate('/home', {replace: true});
   };
 
   const emailInputProps = {

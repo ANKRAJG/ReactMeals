@@ -9,8 +9,10 @@ const AdminLayout: React.FC<{children: React.ReactNode}> = (props) => {
     return(
         <Fragment>
             <Card>
-                <NavLink activeClassName={classes.active} className={classes.link} to="/admin/meals">All Meals</NavLink>
-                <NavLink activeClassName={classes.active} className={classes.link} to="/admin/meal/new">Add new Meal</NavLink>
+                <NavLink className={(navData) => classes.link + (navData.isActive ? classes.active : '')} 
+                    to="/admin/meals">All Meals</NavLink>
+                <NavLink className={(navData) => classes.link + (navData.isActive ? classes.active : '')} 
+                    to="/admin/meal/new">Add new Meal</NavLink>
             </Card>
 
             <div>{props.children}</div>

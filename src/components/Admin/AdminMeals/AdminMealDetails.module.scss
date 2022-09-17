@@ -22,8 +22,11 @@
     }
 }
 
-a {
+.span {
     padding-left: 15px;
     font-weight: 600;
     padding-bottom: 15px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
 }

@@ -13,12 +13,12 @@ const Navigation = () => {
       <ul>
         {authCtx.isLoggedIn && (
           <li>
-            <NavLink to="/home" activeClassName={classes.active}>Home</NavLink>
+            <NavLink to="/home" className={(navData) => navData.isActive ? classes.active : ''}>Home</NavLink>
           </li>
         )}
         {authCtx.isLoggedIn && (
           <li>
-            <NavLink to="/admin" activeClassName={classes.active}>Admin</NavLink>
+            <NavLink to="/admin" className={(navData) => navData.isActive ? classes.active : ''}>Admin</NavLink>
           </li>
         )}
         {authCtx.isLoggedIn && (

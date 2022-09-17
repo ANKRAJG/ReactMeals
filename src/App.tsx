@@ -1,5 +1,5 @@
 import { useState, Fragment, useContext } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
@@ -7,6 +7,9 @@ import Header from './components/Layout/Header/Header';
 import AuthContext, { AuthCtxObj } from './store/auth-context';
 import Admin from './components/Admin/Admin';
 import MainLayout from './components/Layout/MainLayout';
+import AdminMeals from './components/Admin/AdminMeals/AdminMeals';
+import AdminNewMeal from './components/Admin/AdminNewMeal/AdminNewMeal';
+import AdminMealDetails from './components/Admin/AdminMeals/AdminMealDetails';
 
 
 const App = () => {
@@ -17,31 +20,27 @@ const App = () => {
       setCartIsShown(flag);
   };
 
-  const loggedInPages = (<div>
-    <Route path="/home">
-      <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} />
+  const loggedInPages = (<Fragment>
+    <Route path="/home" element={<Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} />} />
+    <Route path="/admin/*" element={<Admin />}>
+        <Route path="meals" element={<AdminMeals />} />
+        <Route path="meal/new" element={<AdminNewMeal />} />
+        <Route path="meals/:mealId" element={<AdminMealDetails />} />
     </Route>
-    <Route path="/admin">
-      <Admin />
-    </Route>
-  </div>);
+  </Fragment>);
 
   return (
     <Fragment>
       <Header onToggleCart={toggleCartModal} />
       <MainLayout>
-        <Route path="/" exact>
-          {authCtx.isLoggedIn ? <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} /> : <Redirect to="/login" />}
-        </Route>
-        {!authCtx.isLoggedIn && 
-            <Route path="/login">
-              <Login />
-            </Route>
-        }
-        {authCtx.isLoggedIn && loggedInPages}
-        <Route path="*">
-          {/* <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} /> */}
-        </Route>
+        <Routes>
+          <Route path="/" element={authCtx.isLoggedIn ? <Home cartIsShown={cartIsShown} toggleCartModal={toggleCartModal} /> : <Navigate to="/login" />} />
+          {!authCtx.isLoggedIn && 
+              <Route path="/login" element={<Login />} />
+          }
+          {authCtx.isLoggedIn && loggedInPages}
+          {/* For not found <Route path="*" /> */}
+        </Routes>
       </MainLayout>
     </Fragment>
   );

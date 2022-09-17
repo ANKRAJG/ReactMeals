@@ -1,5 +1,5 @@
-import { FormEvent, Fragment, useState } from "react";
-import { Prompt, useHistory } from "react-router-dom";
+import { FormEvent, Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 import useHttp from "../../../hooks/use-http";
 import useInput from "../../../hooks/use-input";
 import Button, { ButtonTypes } from "../../UI/Button/Button";
@@ -10,8 +10,7 @@ import classes from "./AdminNewMeal.module.scss";
 
 const AdminNewMeal = () => {
     const { isLoading, sendRequest: addNewMeal } = useHttp();
-    const history = useHistory<string>();
-    const [isEntering, setIsEntering] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const validateEmpty = (value: string) => {
         return value.trim() !== '';
@@ -53,7 +52,7 @@ const AdminNewMeal = () => {
         nameReset();
             descriptionReset();
             priceReset();
-            history.push('/admin/meals');
+            navigate('/admin/meals');
     }
 
     const submitHandler = (event: FormEvent) => {
@@ -79,11 +78,6 @@ const AdminNewMeal = () => {
         );
     }
 
-    const formFocusHandler = () => {
-        console.log('Focus Form');
-        setIsEntering(true);
-    }
-
 
     const nameInputProps = {
         label: 'Name',
@@ -105,11 +99,10 @@ const AdminNewMeal = () => {
 
     return (
         <Fragment>
-            <Prompt when={isEntering} message={(location) => 'Are you sure you want to leave?'} />
             <CardLayout>
                 {!isLoading && <FormCard className={classes['admin-form']}>
                     <h2>Add new Meal</h2>
-                    <form onFocus={formFocusHandler} onSubmit={submitHandler}>
+                    <form onSubmit={submitHandler}>
                         <FormInput {...nameInputProps} />
                         <FormInput {...descriptionInputProps} />
                         <FormInput {...priceInputProps} />

@@ -19,12 +19,13 @@ const AdminMealsCtxProvider: React.FC<{children: React.ReactNode}> = (props) => 
           });
         }
         setAdminMeals(loadedMeals);
+        sessionStorage.setItem('adminMeals', JSON.stringify(loadedMeals));
         return loadedMeals;
     }, []);
 
     const getMealById = (mealId: string) => {
         return adminMeals.filter(meal => meal.id === mealId)[0];
-    }
+    };
 
     const adminMealsContext: AdminMealsContextObj = {
         items: adminMeals,
