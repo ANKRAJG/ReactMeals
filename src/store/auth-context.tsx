@@ -3,18 +3,21 @@ import { useNavigate } from "react-router-dom";
 
 export interface AuthCtxObj {
     isLoggedIn: boolean | null;
+    appLoaded: boolean | null;
     login: (email: string, password: string) => void;
     logout: () => void;
 }
 
 const AuthContext = React.createContext<AuthCtxObj>({
     isLoggedIn: null,
+    appLoaded: null,
     login: (email, password) => {},
     logout: () => {}
 });
 
 export const AuthProvider: React.FC<{children: React.ReactNode}> = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [appLoaded, setAppLoaded] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,6 +25,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = (props) => {
         if(storedLoggedInInfo === '1') {
           setIsLoggedIn(true);
         }
+        setAppLoaded(true);
     }, []);
 
     const loginHandler = (email: string, password: string) => {
@@ -38,9 +42,10 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = (props) => {
     };
 
     const authCtxValue: AuthCtxObj = {
-        isLoggedIn: isLoggedIn,
+        isLoggedIn,
+        appLoaded,
         login: loginHandler,
-        logout: logoutHandler
+        logout: logoutHandler,
     }
 
     return (
