@@ -10,6 +10,8 @@ const AdminMeals = () => {
     const adminMealsCtx = useContext<AdminMealsContextObj>(AdminMealsContext);
     const { processAndSetMeals } = useContext<AdminMealsContextObj>(AdminMealsContext);
     const { isLoading, error, sendRequest: fetchMeals } = useHttp(); 
+    // const [isLoading, setIsLoading] = useState<boolean>(true);
+    // const [error, setError] = useState<string>('');
 
     useEffect(() => {
         console.log('Admin Meals');
@@ -22,9 +24,28 @@ const AdminMeals = () => {
     // Used fetchMeals & processAndSetMeals as useEffect's dependencies after wrapping them into useCallback.
     }, [fetchMeals, processAndSetMeals]);
 
+    // useEffect(() => {
+    //     const getMealsUsingAxios = async () => {
+    //         try {
+    //             const res = await API.get('/meals.json');
+    //             processAndSetMeals(res.data);
+    //         } catch(error: any) {
+    //             setError(error.message);
+    //         }
+    //         setIsLoading(false);
+    //     }
+
+    //     getMealsUsingAxios();
+    //     console.log('Admin Meals');
+    // }, [processAndSetMeals]);
+
+    if(isLoading) {
+        return <p className={classes.mealsLoading}><b>Loading Meals...</b></p>;
+    }
+
     return (
         <Fragment>
-            {!isLoading && !error && 
+            {!error && 
                 <CardLayout>
                     <Card>
                         <ul>
@@ -41,8 +62,7 @@ const AdminMeals = () => {
                     </Card>
                 </CardLayout>
             }
-            {isLoading && <p className={classes.mealsLoading}><b>Loading Meals...</b></p>}
-            {!isLoading && error && <p className={classes.mealsError}><b>{error}</b></p>}
+            {error && <p className={classes.mealsError}><b>{error}</b></p>}
         </Fragment>
     )
 };

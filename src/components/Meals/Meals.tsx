@@ -5,27 +5,48 @@ import AvailableMeals from "./AvailableMeals";
 import { Meal } from '../../models/meal';
 import classes from './Meals.module.scss';
 import AdminMealsContext, { AdminMealsContextObj } from '../../store/admin-meals-context';
-import useHttp from '../../hooks/use-http';
+import API from '../../axios';
 
 const Meals = () => {
     const { processAndSetMeals } = useContext<AdminMealsContextObj>(AdminMealsContext);
     const [meals, setMeals] = useState<Meal[]>([]);
-    const { isLoading, error, sendRequest: fetchMeals } = useHttp(); 
+    //const { isLoading, error, sendRequest: fetchMeals } = useHttp(); 
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string>('');
+
+    // useEffect(() => {
+    //     console.log('Meals');
+    //     fetchMeals(
+    //         {url: 'https://react-meals-9cfa2-default-rtdb.firebaseio.com/meals.json'},
+    //         (data: any) => {
+    //             const adminMeals = processAndSetMeals(data);
+    //             const fetchedMeals: Meal[] = adminMeals.map((meal) => {
+    //                 return {...meal, amount:0 };
+    //             });
+    //             setMeals(fetchedMeals);
+    //         }
+    //     );
+    // // Used fetchMeals & processAndSetMeals as useEffect's dependencies after wrapping them into useCallback.
+    // }, [fetchMeals, processAndSetMeals]);
 
     useEffect(() => {
-        console.log('Meals');
-        fetchMeals(
-            {url: 'https://react-meals-9cfa2-default-rtdb.firebaseio.com/meals.json'},
-            (data: any) => {
-                const adminMeals = processAndSetMeals(data);
+        const fetchMeals = async () => {
+            try {
+                const res = await API.get('/meals.json');
+                const adminMeals = processAndSetMeals(res.data);
                 const fetchedMeals: Meal[] = adminMeals.map((meal) => {
                     return {...meal, amount:0 };
                 });
                 setMeals(fetchedMeals);
+            } catch (error: any) {
+                setError(error.message);
             }
-        );
-    // Used fetchMeals & processAndSetMeals as useEffect's dependencies after wrapping them into useCallback.
-    }, [fetchMeals, processAndSetMeals]);
+            setIsLoading(false);
+        }
+
+        fetchMeals();
+        console.log('Meals');
+    }, [processAndSetMeals]);
 
     return (
         <Fragment>

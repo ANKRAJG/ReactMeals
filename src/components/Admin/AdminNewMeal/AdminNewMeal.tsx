@@ -1,6 +1,6 @@
-import { FormEvent, Fragment } from "react";
+import { FormEvent, Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useHttp from "../../../hooks/use-http";
+import API from "../../../axios";
 import useInput from "../../../hooks/use-input";
 import Button, { ButtonTypes } from "../../UI/Button/Button";
 import CardLayout from "../../UI/Card/CardLayout";
@@ -9,8 +9,10 @@ import FormInput from "../../UI/Form/FormInput/FormInput";
 import classes from "./AdminNewMeal.module.scss";
 
 const AdminNewMeal = () => {
-    const { isLoading, sendRequest: addNewMeal } = useHttp();
+    //const { isLoading, error, sendRequest: addNewMeal } = useHttp();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
 
     const validateEmpty = (value: string) => {
         return value.trim() !== '';
@@ -50,12 +52,12 @@ const AdminNewMeal = () => {
 
     const postSaveData = () => {
         nameReset();
-            descriptionReset();
-            priceReset();
-            navigate('/admin/meals');
+        descriptionReset();
+        priceReset();
+        navigate('/admin/meals');
     }
 
-    const submitHandler = (event: FormEvent) => {
+    const submitHandler = async (event: FormEvent) => {
         event.preventDefault();
 
         if(!formIsValid) {
@@ -68,14 +70,22 @@ const AdminNewMeal = () => {
             price: +enteredPrice
         }
 
-        addNewMeal(
-            {
-                url: 'https://react-meals-9cfa2-default-rtdb.firebaseio.com/meals.json',
-                method: 'POST',
-                body: mealData
-            },
-            postSaveData
-        );
+        // addNewMeal(
+        //     {
+        //         url: 'https://react-meals-9cfa2-default-rtdb.firebaseio.com/meals.json',
+        //         method: 'POST',
+        //         body: mealData
+        //     },
+        //     postSaveData
+        // );
+        setIsLoading(true);
+        try {
+            await API.post('/meals.json', mealData);
+            postSaveData();
+        } catch(error: any) {
+            setError(error.message);
+        }
+        setIsLoading(false);
     }
 
 
@@ -97,10 +107,15 @@ const AdminNewMeal = () => {
         input: { id: 'price', type: 'number', value: enteredPrice, onChange: priceChangeHandler, onBlur: priceBlurHandler, min: '0' }
     }
 
+
+    if(isLoading) {
+        return <p className={classes.mealsLoading}><b>Loading Meals...</b></p>;
+    }
+
     return (
         <Fragment>
             <CardLayout>
-                {!isLoading && <FormCard className={classes['admin-form']}>
+                {!error && <FormCard className={classes['admin-form']}>
                     <h2>Add new Meal</h2>
                     <form onSubmit={submitHandler}>
                         <FormInput {...nameInputProps} />
@@ -113,7 +128,7 @@ const AdminNewMeal = () => {
                         </div>
                     </form>
                 </FormCard>}
-                {isLoading && <p className={classes.mealsLoading}><b>Loading Meals...</b></p>}
+                {error && <p className={classes.mealsError}><b>{error}</b></p>}
             </CardLayout>
         </Fragment>
     )

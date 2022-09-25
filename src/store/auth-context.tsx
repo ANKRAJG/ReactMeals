@@ -45,7 +45,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = (props) => {
         isLoggedIn,
         appLoaded,
         login: loginHandler,
-        logout: logoutHandler,
+        logout: logoutHandler
     }
 
     return (

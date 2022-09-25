@@ -8,3 +8,17 @@
       text-align: center;
     }
 }
+
+.mealsLoading {
+  text-align: center;
+  color: #ffffff;
+  font-size: 24px;
+  margin: 12rem auto;
+}
+
+.mealsError {
+  text-align: center;
+  color: red;
+  font-size: 24px;
+  margin: 12rem auto;
+}
