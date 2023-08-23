@@ -10,9 +10,9 @@ const Admin = () => {
         <Fragment>
             <Card>
                 <NavLink className={(navData) => classes.link + (navData.isActive ? classes.active : '')} 
-                    to="/admin/meals">All Meals</NavLink>
+                    to="meals">All Meals</NavLink>
                 <NavLink className={(navData) => classes.link + (navData.isActive ? classes.active : '')} 
-                    to="/admin/meal/new">Add new Meal</NavLink>
+                    to="meal/new">Add new Meal</NavLink>
             </Card>  
           
             <Outlet />

@@ -22,7 +22,7 @@ const AdminMeals = () => {
             }
         );
     // Used fetchMeals & processAndSetMeals as useEffect's dependencies after wrapping them into useCallback.
-    }, [fetchMeals, processAndSetMeals]);
+    }, [fetchMeals]);
 
     // useEffect(() => {
     //     const getMealsUsingAxios = async () => {
@@ -54,7 +54,7 @@ const AdminMeals = () => {
                                     <div><h3>{meal.name}</h3></div>
                                     <div>
                                         {/* <MealItemForm id={meal.id} onAddToCart={onAddToCardHandler} /> */}
-                                        <Link to={`/admin/meals/${meal.id}`}>View</Link>
+                                        <Link to={meal.id}>View</Link>
                                     </div>
                                 </li>)
                             }

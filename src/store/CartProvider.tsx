@@ -27,7 +27,7 @@ const defaultCartState: CartStateObj = {
 const cartReducer = (state: CartStateObj, action: ActionObj) => {
     switch(action.type) {
         case OperationKind.ADD: {
-            var actionItem = action.item!;
+            const actionItem = action.item!;
             const existingCartItemIndex = state.items.findIndex(item => item.id === actionItem.id);
             const existingCartItem = state.items[existingCartItemIndex];
 
